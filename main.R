@@ -12,7 +12,7 @@ glacier_raw_data <- fromJSON(file = "chile_ar_ar.bibjson")
 
 # Sourcing self-developped functions in the same directory
 # This step have to be done AFTER reading the json data, because the jsonToDF.R has a package that can overwrite some functions of rjson
-source("jsonToDF.R")
+source("jsonToDf.R")
 
 # Using the jsonToDf function to convert json to data frame
 glacier_data <- jsonToDf(glacier_raw_data)
