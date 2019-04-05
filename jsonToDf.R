@@ -1,3 +1,9 @@
+#' @title Converting GDD generated json file to data frame
+#' @param input The json file to be converted.
+#' This script is specifically for the main.R file
+#' 
+
+
 library(jsonlite)
 
 jsonToDf <- function (input){
