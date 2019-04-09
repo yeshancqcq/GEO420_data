@@ -40,9 +40,11 @@ hold off
 %% SiO2 content 
 figure(4)
 SiO2=chile_sio2(:,2);
-S2=find(chile_dates<200); % only look at SVZ dates 200 ka to present 
+Chile_SiTime=chile_sio2(:,1)
+S2=find(Chile_SiTime<200); % only look at SVZ dates 200 ka to present 
 SiO2=SiO2(S2);
-scatter(chile_dates,SiO2);
+Chile_SiTime=Chile_SiTime(S2);
+scatter(Chile_SiTime,SiO2);
 set(gca,'XDir','reverse')
 title ('SiO2 through time')
 ylabel ('SiO2')
@@ -76,6 +78,7 @@ ylabel ('dO18')
 hold on
 yyaxis left
 bar(binEdges,binMean,'faceAlpha',0.5)
+title ('Average SiO2 per 4 ka vs LR04')
 set(gca,'XDir','reverse')
 xlabel('age[ka]')
 ylabel('SiO2 [wt%]')
