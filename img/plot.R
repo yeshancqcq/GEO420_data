@@ -42,7 +42,7 @@ p_andes_kam <- ggplot() +
   annotate("text", x = 23000, y = 30, label = "Volcanic Events at Andes", size = 2.5 ,colour = "red") +
   annotate("text", x = 23000, y = 31, label = "Temperature Anomaly at Japan", size = 2.5, colour = "#7CA0A6") +
   annotate("text", x = 23000, y = 32, label = "Temperature Anomaly at Andes", size = 2.5 ,colour = "blue") +
-  xlim(0, 30000)
+  scale_x_reverse(limits = c(30000, 0))
 
 p_andes_kam
 
@@ -64,6 +64,5 @@ p_andes_nz <- ggplot() +
   annotate("text", x = 23000, y = 30, label = "Volcanic Events at Andes", size = 2.5 ,colour = "red") +
   annotate("text", x = 23000, y = 31, label = "Temperature Anomaly at New Zealand", size = 2.5, colour = "#7CA0A6") +
   annotate("text", x = 23000, y = 32, label = "Temperature Anomaly at Andes", size = 2.5 ,colour = "blue") +
-  xlim(0, 30000)
-
+  scale_x_reverse(limits = c(30000, 0))
 p_andes_nz
