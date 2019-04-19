@@ -39,13 +39,14 @@ if (is.na(anomaly_base)){
   for(j in 1:nrow(dt_int)){
     anomaly <- dt_int$temp[j]-anomaly_base
     temp_anomaly <- c(temp_anomaly, anomaly)
+    # Generating the new data frame with age, temp and anomaly columns
+    dt_df <- data.frame(Age=dt_int$age, Temperature=dt_int$temp, Anomaly=temp_anomaly)
+    
+    # Writing the csv
+    write.csv(dt_df, paste0("/Users/apple/Documents/moving_ave/anomaly/anomaly_", filename), row.names=F)
   }
 }
 
-# Generating the new data frame with age, temp and anomaly columns
-dt_df <- data.frame(Age=dt_int$age, Temperature=dt_int$temp, Anomaly=temp_anomaly)
 
-# Writing the csv
-write.csv(dt_df, paste0("/Users/apple/Documents/moving_ave/anomaly/anomaly_", filename), row.names=F)
 
 
