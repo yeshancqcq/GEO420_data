@@ -175,26 +175,35 @@ p_andes_histo
 # figure 1:
 
 p_all_temp <- ggplot()+
-  geom_line(data=ka_temp_data,aes(Time,Temperature), size = 0.5, colour = "#7CA0A6")+
-  geom_line(data=andes_temp_data,aes(Time,AndesTemp), size = 0.5, colour = "blue", alpha = 0.5)+
-  geom_line(data=ant_temp_data,aes(Time,AntTemp), size = 0.5, colour = "black")+
-  geom_line(data=nz_temp_data,aes(Time,NZTemp), size = 0.5, colour = "red", alpha = 0.5)+
-  scale_y_continuous(name = expression("Temperature Anomaly (°C)"), limits = c(-10, 6))+
+  geom_line(data=ka_temp_data,aes(Time,Temperature, colour = "Japan"), size = 0.5)+
+  geom_line(data=andes_temp_data,aes(Time,AndesTemp, colour = "Andes"), size = 0.5)+
+  geom_line(data=ant_temp_data,aes(Time,AntTemp, colour = "Antarctica"), size = 0.5)+
+  geom_line(data=nz_temp_data,aes(Time,NZTemp, colour = "New Zealand"), size = 0.5)+
+  scale_y_continuous(name = expression("Temperature Anomaly (°C)"), limits = c(-10, 6))+  
+  scale_colour_manual(values = c(
+    'Japan' = '#7CA0A6',
+    'Andes' = 'blue',
+    'Antarctica' = 'black',
+    'New Zealand' = 'red'
+  )) +
   labs(y = "Counts",
-       x = "Time (Years BP)") +
+       x = "Time (Years BP)",
+       colour = "Legend") +
   ggtitle("(a) Temperature Anomalies", "regarding 10,000 years BP") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line.y = element_line(colour = "black"),
         axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank(),
-        axis.title.y=element_text(size=7)
+        axis.title.y=element_text(size=7),
+        legend.justification = c(0, 0),
+        legend.position = "top",
+        legend.background = element_rect(colour = "black", size = 0.2),
+        legend.key = element_rect(colour = "white", fill = NA),
+        legend.title = element_blank(),
+        legend.text=element_text(size=rel(0.67))
         ) +
-  scale_x_reverse(limits = c(30000, 0))+
-  annotate("text", x = 25000, y = 5, label = "Andes", size = 2.8, colour = "blue", alpha = 0.5)+
-  annotate("text", x = 25000, y = 4, label = "Antarctica", size = 2.8, colour = "black")+
-  annotate("text", x = 25000, y = 3, label = "Japan", size = 2.8, colour = "#7CA0A6")+
-  annotate("text", x = 25000, y = 2, label = "New Zealand", size = 2.8, colour = "red", alpha = 0.5)
+  scale_x_reverse(limits = c(30000, 0))
 p_all_temp
 
 p_ngl <- ggplot(all_glacier_data, aes(x=Age, y=Length, color=Location, shape=Location)) +
@@ -211,10 +220,10 @@ p_ngl <- ggplot(all_glacier_data, aes(x=Age, y=Length, color=Location, shape=Loc
         axis.title.y=element_text(size=7),
         legend.justification = c(0, 0),
         legend.position = c(0.1, 0.1),
-        legend.background = element_rect(colour = "black"),
+        legend.background = element_rect(colour = "black", size = 0.2),
         legend.key = element_rect(colour = "white", fill = NA),
         legend.title = element_blank(),
-        legend.text=element_text(size=rel(0.63))
+        legend.text=element_text(size=rel(0.67))
   ) + 
   geom_smooth(method=lm,  linetype="dashed", size=0.4, se=FALSE)+
   scale_x_reverse(limits = c(30000, 0))+
@@ -224,44 +233,60 @@ p_ngl <- ggplot(all_glacier_data, aes(x=Age, y=Length, color=Location, shape=Loc
 p_ngl  
 
 p_global_vol <- ggplot()+
-  geom_freqpoly(data=global_vol_data, aes(x=Event), bins=30, colour="black")+
-  geom_freqpoly(data=global_g_vol_data, aes(x=Event), bins=30, colour="blue")+
-  geom_freqpoly(data=global_ng_vol_data, aes(x=Event), bins=30, colour="red")+
+  geom_freqpoly(data=global_vol_data, aes(x=Event, colour = "All records"), bins=30)+
+  geom_freqpoly(data=global_g_vol_data, aes(x=Event, colour = "Records from glaciation regions"), bins=30)+
+  geom_freqpoly(data=global_ng_vol_data, aes(x=Event, colour = "Records from non-glaciation regions"), bins=30)+
   scale_y_continuous(name = expression("Number of Volcanic Events per 1000 Years"), limits = c(0, 155))+
+  scale_colour_manual(values = c(
+    'All records' = 'black',
+    'Records from glaciation regions' = 'blue',
+    'Records from non-glaciation regions' = 'red'
+  )) +
   labs(y = "Counts",
        x = "Time (Years BP)",
-       colour = "Parameter") +
+       colour = "Legend") +
   ggtitle("(c) Global volcanic records") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line.y = element_line(colour = "black"),
         axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank(),
-        axis.title.y=element_text(size=7)
+        axis.title.y=element_text(size=7),
+        legend.justification = c(0, 0),
+        legend.position = "top",
+        legend.background = element_rect(colour = "black", size = 0.2),
+        legend.key = element_rect(colour = "white", fill = NA),
+        legend.title = element_blank(),
+        legend.text=element_text(size=rel(0.67))
         ) +
-  annotate("text", x = 25000, y = 150, label = "All records", size = 2.5, colour = "black") +
-  annotate("text", x = 25000, y = 140, label = "Regions with glaciation", size = 2.5 ,colour = "blue") +
-  annotate("text", x = 25000, y = 130, label = "Regions without glaciation", size = 2.5 ,colour = "red") +
   scale_x_reverse(limits = c(30000, 0))
 p_global_vol
 
 p_location_vol <- ggplot()+
-  geom_freqpoly(data=ka_vol_data, aes(x=Events), bins=30, colour="#4282af")+
-  geom_freqpoly(data=andes_vol_data, aes(x=AndesEvents), bins=30, colour="black")+
-  geom_freqpoly(data=nz_vol_data, aes(x=NZEvents), bins=30, colour="red", alpha = 0.6)+
+  geom_freqpoly(data=ka_vol_data, aes(x=Events, colour="Kamchatca"), bins=30)+
+  geom_freqpoly(data=andes_vol_data, aes(x=AndesEvents, colour = "Andes"), bins=30)+
+  geom_freqpoly(data=nz_vol_data, aes(x=NZEvents, colour = "New Zealand"), bins=30)+
   scale_y_continuous(name = expression("Number of Volcanic Events per 1000 Years"), limits = c(0, 50))+
+  scale_colour_manual(values = c(
+    'Kamchatca' = '#7CA0A6',
+    'Andes' = 'blue',
+    'New Zealand' = 'red'
+  )) +
   labs(y = "Counts",
        x = "Time (Years BP)",
-       colour = "Parameter") +
+       colour = "Legend") +
   ggtitle("(d) Volcanic records","Andes, Kamchatca and New Zealand") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"),
         axis.title.y=element_text(size=7),
-        axis.title.x=element_text(size=7)
+        axis.title.x=element_text(size=7),
+        legend.justification = c(0, 0),
+        legend.position = "top",
+        legend.background = element_rect(colour = "black", size = 0.2),
+        legend.key = element_rect(colour = "white", fill = NA),
+        legend.title = element_blank(),
+        legend.text=element_text(size=rel(0.67))
   ) +
-  annotate("text", x = 25000, y = 49, label = "Andes", size = 2.5, colour = "black") +
-  annotate("text", x = 25000, y = 46, label = "Kamchatca", size = 2.5 ,colour = "#4282af") +
-  annotate("text", x = 25000, y = 43, label = "New Zealand", size = 2.5 ,colour="red", alpha = 0.68) +
   scale_x_reverse(limits = c(30000, 0), breaks = scales::pretty_breaks(n = 20))
 p_location_vol
 
@@ -277,18 +302,27 @@ grid.draw(g)
 
 # figure 2
 p_vol_agg <- ggplot()+
-  geom_freqpoly(data=ka_vol_data, aes(x=Events), bins=30, colour="dark green")+
-  geom_freqpoly(data=andes_vol_data, aes(x=AndesEvents), bins=30, colour="black")+
-  geom_freqpoly(data=nz_vol_data, aes(x=NZEvents), bins=30, colour="red", alpha = 0.6)+
-  geom_freqpoly(data=alaska_vol_data, aes(x=Events), bins=30, colour="orange", alpha = 0.6)+
-  geom_freqpoly(data=sa_vol_data, aes(x=Events), bins=30, colour="purple", alpha = 0.6)+
-  geom_freqpoly(data=cwus_vol_data, aes(x=Events), bins=30, colour="blue", alpha = 0.6)+
-  geom_line(data=ant_temp_data,aes(Time,(AntTemp+15)*2.4), size = 0.5, colour = "#28339b")+
+  geom_freqpoly(data=andes_vol_data, aes(x=AndesEvents, colour = "UWis-Madison Andes Data"), bins=30)+
+  geom_freqpoly(data=ka_vol_data, aes(x=Events, colour="Volcanic Events in Kamchatca"), bins=30)+
+  geom_freqpoly(data=nz_vol_data, aes(x=NZEvents, colour = "Volcanic Events in New Zealand"), bins=30)+
+  geom_freqpoly(data=alaska_vol_data, aes(x=Events, colour = "Volcanic Events in Alaska"), bins=30)+
+  geom_freqpoly(data=sa_vol_data, aes(x=Events, colour = "Volcanic Events in South America"), bins=30)+
+  geom_freqpoly(data=cwus_vol_data, aes(x=Events, colour = "Volcanic Events in Canada and Western US"), bins=30)+
+  geom_line(data=ant_temp_data,aes(Time,(AntTemp+15)*2.4, colour = "Antarctica Temperature Anomaly"), size = 0.5)+
   scale_y_continuous(name = expression("Number of Volcanic Events per 1000 Years"), limits = c(0, 45), 
                      sec.axis = sec_axis(~./2.4-15, name = "Antarctica Temperature Anomaly (°C)"))+
   labs(y = "Counts",
        x = "Time (Years BP)",
-       colour = "Parameter") +
+       colour = "Legend") +
+  scale_colour_manual(values = c(
+         'UWis-Madison Andes Data' = 'black',
+         'Volcanic Events in South America' = 'orange',
+         'Volcanic Events in Canada and Western US' = 'pink',
+         'Volcanic Events in Alaska' = 'dark green',
+         'Volcanic Events in New Zealand' = 'red',
+         'Volcanic Events in Kamchatca' = 'purple',
+         'Antarctica Temperature Anomaly' = '#28339b'
+       )) +
   ggtitle("Volcanic records at Various Locations","with temperature anomalies at Antarctica") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line.x = element_line(colour = "black"),
@@ -298,33 +332,42 @@ p_vol_agg <- ggplot()+
         axis.title.x=element_text(size=10),
         axis.title.y.right = element_text(colour = "#28339b"),
         axis.text.y.right = element_text(colour = "#28339b"),
-        axis.ticks.y.right = element_line(colour = "#28339b")
-  ) +
-  annotate("text", x = 25000, y = 44, label = "UWis-Madison Andes Data", size = 3, colour = "black") +
-  annotate("text", x = 25000, y = 42, label = "Kamchatca", size = 3 ,colour = "dark green") +
-  annotate("text", x = 25000, y = 40, label = "New Zealand", size = 3,colour="red", alpha = 0.68) +
-  annotate("text", x = 25000, y = 38, label = "Alaska", size = 3 ,colour="orange", alpha = 0.6)+
-  annotate("text", x = 25000, y = 36, label = "Canada and Western US", size = 3 ,colour="blue", alpha = 0.6)+
-  annotate("text", x = 25000, y = 34, label = "South America", size = 3 ,colour="purple", alpha = 0.6)+
-  annotate("text", x = 6000, y = 39, label = "Antarctica Temperature Anomaly", size = 3, colour = "#28339b")+
+        axis.ticks.y.right = element_line(colour = "#28339b"),
+        legend.justification = c(0, 0),
+        legend.position = c(0.05, 0.58),
+        legend.background = element_rect(colour = "black"),
+        legend.key = element_rect(colour = "white", fill = NA),
+        legend.title = element_blank(),
+        legend.text=element_text(size=rel(0.83))
+  )+
   scale_x_reverse(limits = c(30000, 0), breaks = scales::pretty_breaks(n = 20))
 p_vol_agg
 
 # figure 3
 p_andes_leave_out <- ggplot()+
-  geom_freqpoly(data=andes_vol_data, aes(x=AndesEvents), bins=30, colour="black")+
-  geom_freqpoly(data=andes_noCa_data, aes(x=noCa_Events), bins=30, colour="blue")+
-  geom_freqpoly(data=andes_noHu_data, aes(x=noHu_Events), bins=30, colour="pink")+
-  geom_freqpoly(data=andes_noMc_data, aes(x=noMc_Events), bins=30, colour="dark green")+
-  geom_freqpoly(data=andes_noVr_data, aes(x=noVr_Events), bins=30, colour="red")+
-  geom_freqpoly(data=andes_noOs_data, aes(x=noOs_Events), bins=30, colour="purple")+
-  geom_freqpoly(data=andes_noPc_data, aes(x=noPc_Events), bins=30, colour="orange", alpha = 0.66)+
-  geom_line(data=ant_temp_data,aes(Time,(AntTemp+15)*2.4), size = 0.5, colour = "#28339b")+
+  geom_freqpoly(data=andes_vol_data, aes(x=AndesEvents,colour="UWis-Madison Andes Data"), bins=30)+
+  geom_freqpoly(data=andes_noCa_data, aes(x=noCa_Events, colour="Leave out Calbuco"), bins=30)+
+  geom_freqpoly(data=andes_noHu_data, aes(x=noHu_Events, colour="Leave out Hudson"), bins=30)+
+  geom_freqpoly(data=andes_noMc_data, aes(x=noMc_Events, colour="Leave out Mocho Choshuenco"), bins=30)+
+  geom_freqpoly(data=andes_noVr_data, aes(x=noVr_Events, colour="Leave out Villarrica"), bins=30)+
+  geom_freqpoly(data=andes_noOs_data, aes(x=noOs_Events, colour="Leave out Osorno"), bins=30)+
+  geom_freqpoly(data=andes_noPc_data, aes(x=noPc_Events, colour="Leave out Puyehue Cordon Caulle"), bins=30)+
+  geom_line(data=ant_temp_data,aes(Time,(AntTemp+15)*2.4, colour = "Antarctica Temperature Anomaly"), size = 0.5)+
+  scale_colour_manual(values = c(
+    'UWis-Madison Andes Data' = 'black',
+    'Leave out Calbuco' = 'light blue',
+    'Leave out Hudson' = 'pink',
+    'Leave out Mocho Choshuenco' = 'dark green',
+    'Leave out Villarrica' = 'red',
+    'Leave out Osorno' = 'purple',
+    'Leave out Puyehue Cordon Caulle' = 'orange',
+    'Antarctica Temperature Anomaly' = '#28339b'
+    )) +
   scale_y_continuous(name = expression("Number of Volcanic Events per 1000 Years"), limits = c(0, 45), 
                      sec.axis = sec_axis(~./2.4-15, name = "Antarctica Temperature Anomaly (°C)"))+
   labs(y = "Counts",
        x = "Time (Years BP)",
-       colour = "Parameter") +
+       colour = 'Legend') +
   ggtitle("Volcanic records at Andes","with single volcano left-out") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line.x = element_line(colour = "black"),
@@ -334,15 +377,13 @@ p_andes_leave_out <- ggplot()+
         axis.title.x=element_text(size=10),
         axis.title.y.right = element_text(colour = "#28339b"),
         axis.text.y.right = element_text(colour = "#28339b"),
-        axis.ticks.y.right = element_line(colour = "#28339b")
+        axis.ticks.y.right = element_line(colour = "#28339b"),
+        legend.justification = c(0, 0),
+        legend.position = c(0.05, 0.58),
+        legend.background = element_rect(colour = "black"),
+        legend.key = element_rect(colour = "white", fill = NA),
+        legend.title = element_blank(),
+        legend.text=element_text(size=rel(0.83))
   ) +
-  annotate("text", x = 25000, y = 44, label = "UWis-Madison Andes Data", size = 3, colour = "black") +
-  annotate("text", x = 25000, y = 42, label = "leave out Calbuco", size = 3 ,colour = "blue") +
-  annotate("text", x = 25000, y = 40, label = "leave out Hudson", size = 3,colour="pink") +
-  annotate("text", x = 25000, y = 38, label = "leave out Mocho Choshuenco", size = 3 ,colour="dark green")+
-  annotate("text", x = 25000, y = 36, label = "leave out Osorno", size = 3 ,colour="purple")+
-  annotate("text", x = 25000, y = 34, label = "leave out Puyehue Cordon Caulle", size = 3 ,colour="orange")+
-  annotate("text", x = 25000, y = 32, label = "leave out Villarrica", size = 3 ,colour="red")+
-  annotate("text", x = 6000, y = 39, label = "Antarctica Temperature Anomaly", size = 3, colour = "#28339b")+
   scale_x_reverse(limits = c(30000, 0), breaks = scales::pretty_breaks(n = 20))
 p_andes_leave_out
