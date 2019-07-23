@@ -69,12 +69,15 @@ for(i in 1:total_record){
 # Plot the monte carlo results
 plot <- ggplot()
 for(i in 3:1002){
-  gg.data <- data.frame(value=svz[,i])
+  gg.data <- data.frame(Time=svz[,i])
   plot<- plot+
-    geom_freqpoly(data=gg.data, aes(x=value), bins=30, colour="#A67C94", alpha = 0.01) 
+    geom_freqpoly(data=gg.data, aes(x=Time), bins=30, colour="#A67C94", alpha = 0.05) 
 }
 
-plot <- plot + scale_x_reverse(limits = c(30000, 0.1))
+plot <- plot + scale_x_reverse(limits = c(30000, 0.1)) +
+  ggtitle("Number of SVZ Events Over Time","Monte Carlo Simulation for 1000 Times, Normalized to 30000 Years BP") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
 print(plot)
 
 
