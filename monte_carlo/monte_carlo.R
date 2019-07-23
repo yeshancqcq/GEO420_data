@@ -68,10 +68,10 @@ for(i in 1:total_record){
 
 # Plot the monte carlo results
 plot <- ggplot()
-for(i in 3:100){
+for(i in 3:1002){
   gg.data <- data.frame(value=svz[,i])
   plot<- plot+
-    geom_freqpoly(data=gg.data, aes(x=value), bins=30, colour="#A67C94", alpha = 0.1) 
+    geom_freqpoly(data=gg.data, aes(x=value), bins=30, colour="#A67C94", alpha = 0.01) 
 }
 
 plot <- plot + scale_x_reverse(limits = c(30000, 0.1))
