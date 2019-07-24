@@ -28,7 +28,7 @@ for(i in 1:total_record){
 
 # Let's do the Monte Carlo Simulation for the data normalization for 1000 times
 
-for (mc in 1:1000){
+for (mc in 1:10000){
   # Add a new column corresponding to the # of simulation
   svz$nextrun <-NA
   # Keep or drop for each record
@@ -73,19 +73,19 @@ andes_temp_data = data.frame(Time=andes_sp$x, AndesTemp = andes_sp$y)
 
 # Plot the monte carlo results
 plot <- ggplot()
-for(i in 3:1002){
+for(i in 3:10002){
   gg.data <- data.frame(Time=svz[,i])
   plot<- plot+
-    geom_freqpoly(data=gg.data, aes(x=Time), bins=30, size = 1.5, colour="#A67C94", alpha = 0.05) 
+    geom_freqpoly(data=gg.data, aes(x=Time), bins=30, size = 1.2, colour="#A67C94", alpha = 0.05) 
 }
 
-plot <- plot + scale_x_reverse(limits = c(30000, 0.1),breaks = scales::pretty_breaks(n = 20)) +
+plot <- plot + scale_x_reverse(limits = c(30000, 0.1),breaks = scales::pretty_breaks(n = 10)) +
   ggtitle("Number of SVZ Events Over Time","Monte Carlo Simulation for 1000 Times, Normalized to 30000 Years BP") +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))+
-  geom_line(data=andes_temp_data,aes(Time,(AndesTemp+5.2)*3), size = 0.5, colour = "blue")+
+  geom_line(data=andes_temp_data,aes(Time,(AndesTemp+5.3)*2.5), size = 0.5, colour = "blue")+
   scale_y_continuous(name = expression("Number of Volcanic Events per 1000 Years"), limits = c(0, 25), 
-                     sec.axis = sec_axis(~./3-5.2, name = "Temperature Anomaly (°C)"))+
+                     sec.axis = sec_axis(~./2.5-5.3, name = "Temperature Anomaly (°C)"))+
   labs(y = "Counts",
        x = "Time (Years BP)",
        colour = "Parameter")
