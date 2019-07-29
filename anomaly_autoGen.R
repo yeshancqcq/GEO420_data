@@ -1,4 +1,4 @@
-files <- list.files(path="/Users/apple/Documents/moving_ave/cleared_data", 
+files <- list.files(path="C:\Users\Shan Ye\Documents\GitHub\GEO420_data\cleared_data", 
                     pattern="*.csv", full.names=TRUE, recursive=FALSE)
 
 
