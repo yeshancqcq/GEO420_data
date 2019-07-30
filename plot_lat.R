@@ -24,6 +24,8 @@ for (i in 4:224){
 
 output <- coverage
 output <- output[,-1]
+output <- output[,-1]
+output <- output[,-1]
 
 output<- as.data.frame(t(output))
 
@@ -43,7 +45,7 @@ plot <- plot + scale_x_reverse(limits = c(220, 0),breaks = scales::pretty_breaks
         panel.background = element_blank(), axis.line = element_line(colour = "black"))+
   scale_y_continuous(name = expression("Latitude"), limits = c(-90,90), breaks = scales::pretty_breaks(n = 9))+
   labs(y = "Counts",
-       x = "Time (Ka BP)",
+       x = "Time (Hundred years bp)",
        colour = "Parameter")+
   geom_rect(data=anomaly_min, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), fill="blue", alpha=0.1, inherit.aes = FALSE)+
   geom_rect(data=anomaly_max, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), fill="red", alpha=0.05, inherit.aes = FALSE)

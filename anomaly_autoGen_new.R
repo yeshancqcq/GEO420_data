@@ -1,7 +1,7 @@
 library(plyr)
 library(astrochron)
 
-files <- list.files(path="C:\Users\Shan Ye\Documents\GitHub\GEO420_data\cleared_data", 
+files <- list.files(path="/Users/yeshan/Documents/github/GEO420_data/cleared_data", 
                     pattern="*.csv", full.names=TRUE, recursive=FALSE)
 
 
@@ -20,12 +20,25 @@ lapply(files, function(x) {
   # Starting at the next 100 year point prior to the latest age
   dt_int=linterp(dt, dt=100, start=start_num, genplot=F)
   
-  #get the 10000 bp row number as reference (anomaly base)
+  # get the average between 8000 and 12000 bp as reference (anomaly base) 
   anomaly_base = NA
+  counter <- 0
+  sumRange <- 0
+  
   for (i in 1:nrow(dt_int)){
-    if(dt_int$age[i]==10000){
-      anomaly_base <- dt_int$temp[i]
+    if(dt_int$age[i]>=8000 && dt_int$age[i]<= 12000){
+      if(dt_int$temp[i]!=0){
+        sumRange <- sumRange + dt_int$temp[i]
+        counter <- counter + 1
+      }
     }
+  }
+  
+  # if there are more than 10 data points within the 8000-12000 bp range, we regard it a valid case for generating the anomaly base
+  if(counter >= 10){
+    anomaly_base <- sumRange/counter
+  } else {
+    anomaly_base = NA
   }
   
   # initiating 2 vectors, one for temperature anomaly, one for abandoned 
@@ -33,7 +46,7 @@ lapply(files, function(x) {
   abandoned_files <- vector()
   temp_anomaly <- vector()
   
-  # Check if it has data at 10000 years bp
+  # Check if it has data for anomaly years bp
   # if yes: generate the anomaly vector
   # if no: print the filename and add it to the abandoned files
   if (is.na(anomaly_base)){
@@ -48,6 +61,6 @@ lapply(files, function(x) {
     dt_df <- data.frame(Age=dt_int$age, Temperature=dt_int$temp, Anomaly=temp_anomaly)
     
     # Writing the csv
-    write.csv(dt_df, paste0("/Users/apple/Documents/moving_ave/test/anomaly_", filename), row.names=F)
+    write.csv(dt_df, paste0("/Users/yeshan/Documents/github/GEO420_data/anomaly_int_data_new/anomaly_", filename), row.names=F)
   }
 })
