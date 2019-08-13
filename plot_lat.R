@@ -30,7 +30,7 @@ output <- output[,-1]
 output<- as.data.frame(t(output))
 
 anomaly_min <- data.frame(xmin = 98, xmax = 105, ymin = -Inf, ymax = Inf)
-anomaly_max <- data.frame(xmin = 83, xmax = 120, ymin = -Inf, ymax = Inf)
+anomaly_max <- data.frame(xmin = 80, xmax = 120, ymin = -Inf, ymax = Inf)
 
 plot <- ggplot()
 for(i in 1:151){
